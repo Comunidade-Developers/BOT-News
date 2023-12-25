@@ -1,37 +1,27 @@
-import discord
-import httpx
-from bs4 import BeautifulSoup
+import keyring
+import hikari
+from hikari import intents
+import asyncio
 
-client = discord.Client()
+from engines.business2 import get_news
 
+token = keyring.get_password('bot_news', 'token')
+channel_business = keyring.get_password('bot_news', 'channel_business')
+sent_news = []
 
-async def buscar_noticias():
-    url = 'https://www.google.com/search?q=noticias&hl=pt-BR&gl=BR&ceid=BR:pt-419&source=lnms&tbm=nws'
-    headers = {'User-Agent': 'Mozilla/5.0'}
+bot = hikari.GatewayBot(token, intents=intents.Intents.ALL)
 
-    async with httpx.AsyncClient() as client:
-        response = await client.get(url, headers=headers)
+@bot.listen()
+async def on_started(event: hikari.StartedEvent) -> None:
+  
+    # Google News Business
+    results = await get_news()
+    for result in results:
+        if result[0] not in sent_news:
+            sent_news.append(result[0])
+            news_info = f'{"-"*50}\nTÍTULO DA NOTICIA: {result[0]}\nDATA: {result[1]}\nLINK: {result[2]}\nEMPRESA: {result[3]}'
+            await bot.rest.create_message(channel_business, news_info)
+            await asyncio.sleep(10)
+    await asyncio.sleep(60)
 
-    soup = BeautifulSoup(response.text, 'html.parser')
-    noticias = soup.find_all('div', class_='BNeawe vvjwJb AP7Wnd')
-
-    noticias_texto = [noticia.get_text() for noticia in noticias]
-    return '\n'.join(noticias_texto)
-
-
-@client.event
-async def on_ready():
-    print(f'Conectado como {client.user}')
-
-
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-
-    if message.content.startswith('$noticias'):
-        await message.channel.send('Buscando notícias...')
-        noticias = await buscar_noticias()
-        await message.channel.send(noticias)
-
-client.run('token')
+bot.run()
