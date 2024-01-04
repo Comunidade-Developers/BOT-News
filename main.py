@@ -5,11 +5,10 @@ import asyncio
 
 from engines.business2 import get_news
 
-token = keyring.get_password('bot_news', 'token')
 channel_business = keyring.get_password('bot_news', 'channel_business')
 sent_news = []
 
-bot = hikari.GatewayBot(token, intents=intents.Intents.ALL)
+bot = hikari.GatewayBot(keyring.get_password('bot_news', 'token'), intents=intents.Intents.ALL)
 
 @bot.listen()
 async def on_started(event: hikari.StartedEvent) -> None:

@@ -1,5 +1,8 @@
 import httpx
 from datetime import datetime, timedelta
+import schedule
+import time
+import asyncio
 
 
 async def get_news() -> list:
@@ -14,31 +17,42 @@ async def get_news() -> list:
         "X-RapidAPI-Host": "newsnow.p.rapidapi.com"
     }
 
-    for page in range(1, 6):
-        payload = {
-            "query": "business",
-            "page": page,
-            "time_bounded": True,
-            "from_date": three_days_ago.strftime("%d/%m/%Y"),
-            "to_date": current_date.strftime("%d/%m/%Y"),
-            "location": "",
-            "category": "",
-            "source": ""
-        }
+    payload = {
+        "query": "business",
+        "page": 1,
+        "time_bounded": True,
+        "from_date": three_days_ago.strftime("%d/%m/%Y"),
+        "to_date": current_date.strftime("%d/%m/%Y"),
+        "location": "",
+        "category": "",
+        "source": ""
+    }
 
-        async with httpx.AsyncClient() as client:  # Increase timeout
-          response = await client.post(url, json=payload, headers=headers)
+    async with httpx.AsyncClient() as client:  # Increase timeout
+      response = await client.post(url, json=payload, headers=headers)
 
-          if response.status_code == 200:
-            data = response.json()
+      if response.status_code == 200:
+        data = response.json()
 
-            for news_item in data.get('news', []):
-              title = news_item.get('title')
-              date = news_item.get('date')
-              link = news_item.get('url')
-              source = news_item.get('source')
+        for news_item in data.get('news', []):
+          title = news_item.get('title')
+          date = news_item.get('date')
+          link = news_item.get('url')
+          source = news_item.get('source')
 
-              new = [title, date, link, source]
-              news.append(new)
+          new = [title, date, link, source]
+          news.append(new)
 
     return news
+
+def job():
+    news = asyncio.run(get_news())
+    print(news)
+
+# Agende o trabalho para ser executado todos os dias
+schedule.every(2).days.at("00:00").do(job)
+
+while True:
+    # Executa tarefas pendentes
+    schedule.run_pending()
+    time.sleep(1)

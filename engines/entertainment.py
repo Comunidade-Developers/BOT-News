@@ -3,18 +3,18 @@ import requests
 url = "https://newsnow.p.rapidapi.com/newsv2"
 
 payload = {
-	"query": "entertainment",
+	"query": "AI",
 	"page": 1,
 	"time_bounded": True,
-	"from_date": "18/12/2023",
-	"to_date": "25/12/2023",
+	"from_date": "01/02/2021",
+	"to_date": "05/06/2021",
 	"location": "",
 	"category": "",
 	"source": ""
 }
 headers = {
 	"content-type": "application/json",
-	"X-RapidAPI-Key": "b7c205fb69mshd249a9ea595055dp14caf6jsn47e78ac78f26",
+	"X-RapidAPI-Key": "3daca39e74msh9f573a05381977cp1aac68jsndaf44db519f9",
 	"X-RapidAPI-Host": "newsnow.p.rapidapi.com"
 }
 
