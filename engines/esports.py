@@ -2,18 +2,20 @@ import http.client
 import json
 from datetime import datetime, timedelta
 
+
 def get_dates():
     current_date = datetime.now()
     two_days_ago = current_date - timedelta(days=2)
     return two_days_ago.strftime('%d/%m/%Y'), current_date.strftime('%d/%m/%Y')
 
-async def technology():
+
+async def esports():
     conn = http.client.HTTPSConnection("newsnow.p.rapidapi.com")
 
     from_date, to_date = get_dates()
 
     payload = f'''{{
-        "query": "technology",
+        "query": "e-sports",
         "page": 1,
         "time_bounded": true,
         "from_date": "{from_date}",

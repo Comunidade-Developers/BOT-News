@@ -14,7 +14,7 @@ payload = {
 }
 headers = {
 	"content-type": "application/json",
-	"X-RapidAPI-Key": "b7c205fb69mshd249a9ea595055dp14caf6jsn47e78ac78f26",
+	"X-RapidAPI-Key": "",
 	"X-RapidAPI-Host": "newsnow.p.rapidapi.com"
 }
 
