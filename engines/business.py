@@ -1,58 +1,48 @@
-import httpx
+import http.client
+import json
 from datetime import datetime, timedelta
-import schedule
-import time
-import asyncio
 
 
-async def get_news() -> list:
-    news = []
-    url = "https://newsnow.p.rapidapi.com/newsv2"
+def get_dates():
     current_date = datetime.now()
-    three_days_ago = current_date - timedelta(days=3)
+    two_days_ago = current_date - timedelta(days=2)
+    return two_days_ago.strftime('%d/%m/%Y'), current_date.strftime('%d/%m/%Y')
 
-    headers = {
-        "content-type": "application/json",
-        "X-RapidAPI-Key": "",
-        "X-RapidAPI-Host": "newsnow.p.rapidapi.com"
-    }
 
-    payload = {
+async def esports():
+    conn = http.client.HTTPSConnection("newsnow.p.rapidapi.com")
+
+    from_date, to_date = get_dates()
+
+    payload = f'''{{
         "query": "business",
         "page": 1,
-        "time_bounded": True,
-        "from_date": three_days_ago.strftime("%d/%m/%Y"),
-        "to_date": current_date.strftime("%d/%m/%Y"),
-        "location": "",
+        "time_bounded": true,
+        "from_date": "{from_date}",
+        "to_date": "{to_date}",
+        "location": "brazil",
         "category": "",
         "source": ""
+    }}'''
+
+    headers = {
+        'content-type': "application/json",
+        'X-RapidAPI-Key': "05bb657f29mshb6eec31086f745cp106d91jsnee2984f02610",
+        'X-RapidAPI-Host': "newsnow.p.rapidapi.com"
     }
 
-    async with httpx.AsyncClient() as client:  # Increase timeout
-      response = await client.post(url, json=payload, headers=headers)
+    conn.request("POST", "/newsv2", payload, headers)
 
-      if response.status_code == 200:
-        data = response.json()
+    res = conn.getresponse()
+    data = res.read()
 
-        for news_item in data.get('news', []):
-          title = news_item.get('title')
-          date = news_item.get('date')
-          link = news_item.get('url')
-          source = news_item.get('source')
-
-          new = [title, date, link, source]
-          news.append(new)
+    news_data = json.loads(data.decode("utf-8"))
+    news = []
+    for news_item in news_data.get('news', []):
+        title = news_item.get('title')
+        date = news_item.get('date')
+        link = news_item.get('url')
+        source = news_item.get('source')
+        news.append((title, date, link, source))
 
     return news
-
-def job():
-    news = asyncio.run(get_news())
-    print(news)
-
-# Agende o trabalho para ser executado todos os dias
-schedule.every(2).days.at("00:00").do(job)
-
-while True:
-    # Executa tarefas pendentes
-    schedule.run_pending()
-    time.sleep(1)

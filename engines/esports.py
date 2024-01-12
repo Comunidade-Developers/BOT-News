@@ -27,7 +27,7 @@ async def esports():
 
     headers = {
         'content-type': "application/json",
-        'X-RapidAPI-Key': "",
+        'X-RapidAPI-Key': "05bb657f29mshb6eec31086f745cp106d91jsnee2984f02610",
         'X-RapidAPI-Host': "newsnow.p.rapidapi.com"
     }
 
