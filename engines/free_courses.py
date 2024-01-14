@@ -1,12 +1,11 @@
 import httpx
 from bs4 import BeautifulSoup
 
-async def get_esports():
+async def get_free_courses():
 
   news = []
-
-  async with httpx.AsyncClient() as client:
-    response = await client.get('https://news.google.com/search?q=e-sports&hl=pt-BR&gl=BR&ceid=BR%3Apt-419')
+  async with httpx.AsyncClient() as client: 
+    response = await client.get('https://news.google.com/search?q=cursos%20gratuitos%20de%20tecnologia&hl=pt-BR&gl=BR&ceid=BR%3Apt-419')
     soup = BeautifulSoup(response.text, 'html.parser')
     cells = soup.find_all('c-wiz', class_='PO9Zff Ccj79 kUVvS')
     for cell in cells:
@@ -16,6 +15,9 @@ async def get_esports():
       link = f'https://news.google.com{url}'
 
       new = [title, company, link]
+
       news.append(new)
 
-  return news
+  return news  
+  
+
