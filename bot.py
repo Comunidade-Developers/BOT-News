@@ -30,64 +30,64 @@ async def on_started(event: hikari.StartedEvent) -> None:
     while True:
         results = await get_technology()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nJORNAL: {result[1]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nJORNAL: {result[1]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_technology, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
 
         results = await get_esports()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nJORNAL: {result[1]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nJORNAL: {result[1]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_esports, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
 
         results = await get_free_courses()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_free_courses, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
 
         results = await get_sports()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_sports, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
 
         results = await get_brazil()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_brazil, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
         
         results = await get_world()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
+            if result[2] not in sent_news:
+                sent_news.append(result[2])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_world, news_info)
                 await asyncio.sleep(2)
             await asyncio.sleep(2)
 
         results = await get_featured_news()
         for result in results:
-            if result[0] not in sent_news:
-                sent_news.append(result[0])
-                news_info = f'{"-"*20}\nTÍTULO DA NOTICIA: {result[0]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
+            if result[4] not in sent_news:
+                sent_news.append(result[4])
+                news_info = f'{"-"*22}\nTÍTULO DA NOTICIA: {result[2]}\nEMPRESA: {result[1]}\nLINK: {result[2]}\nTÍTULO DA NOTICIA: {result[3]}\nEMPRESA: {result[4]}\nLINK: {result[2]}\n'
                 await bot.rest.create_message(channel_featured_news, news_info)
                 await asyncio.sleep(2)
-            await asyncio.sleep(43200)
+            await asyncio.sleep(43222)
 bot.run()
